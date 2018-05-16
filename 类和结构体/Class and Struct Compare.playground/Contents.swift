@@ -1,5 +1,4 @@
 //: Playground - noun: a place where people can play
-
 import UIKit
 
 class PointRef {
@@ -14,7 +13,7 @@ class PointRef {
     func move(to : PointRef) {
         self.x = to.x
         self.y = to.y
-        
+        //引用类型 就不可以
 //        self = to // error
     }
 }
@@ -22,7 +21,8 @@ class PointRef {
 struct PointValue{
     var x : Int
     var y : Int
-    
+  
+    //充分说明了这是一个 值类型, 直接可以赋值 给 self
   mutating func move(to:PointValue) {
        self = to //right
     }
@@ -30,6 +30,7 @@ struct PointValue{
 
 let pointR = PointRef(x: 10, y: 10)
 
+//结构体 有 自动初始化
 let pointV = PointValue(x: 12, y: 12)
 
 //pointV.y = 16 值类型的常量的属性值是不可以修改的
@@ -82,6 +83,7 @@ class Person {
     }
 }
 
+//便利 初始化
 //convienience init
 
 class Man {
@@ -111,8 +113,6 @@ class Woman {
         self.init(name : at.0, age : age)
     }
     
-  
-    
     init(name:String, age:Int) {
         self.name = name
         self.age = age
@@ -121,6 +121,38 @@ class Woman {
 
 //通过 guard 来处理 参数出现错误的情况, 避免因为错误的数据类型引发初始化时发生不可控的情况,这就是我理解的failable init 方法,提供更安全的方式
 let woman = Woman(at: ("memng", "18"))
+
+//理解 two - phase init
+class Point2d {
+    var x : Double
+    var y : Double
+    
+    init(x: Double, y : Double)  {
+        self.x = x
+        self.y = y
+    }
+}
+
+let point : Point2d = Point2d(x: 2, y: 3)
+
+class Point3d : Point2d{
+    var z : Double
+    
+    init(x: Double = 0, y: Double = 0, z: Double = 0) {
+        
+        self.z = z
+        super.init(x: x, y: y)
+        
+        self.initRound(x: x, y: y, z: z)
+    }
+    func initRound(x: Double, y: Double, z: Double) {
+        self.x = round(x)
+        self.y = round(y)
+        self.z = round(z)
+    }
+    
+}
+
 
 
 
@@ -155,6 +187,7 @@ class Teacher : Man{
         self.height = height
         super.init(name: name, age: age)
     }
+    
     override init(name: String, age: Int) {
         self.height = 175
         super.init(name: name, age: age)
@@ -215,6 +248,11 @@ human_you.nameSetting() //name is Swift
 //在Swift里，继承而来的方法调用是在运行时动态派发的，Swift会在运行时动态选择一个对象真正要调用的方法。但是，方法的参数，出于性能的考虑，却是静态绑定的，编译器会根据调用方法的对象的类型，绑定函数的参数
 
 //当默认参数和需要重写的方法发生冲突时，更好的做法是用一个无法被重写的方法在前面充当API, 可以通过 extension 来解决问题。永远也不要改写继承而来的方法的默认参数，因为它执行的是静态绑定的语义。
+
+
+
+
+
 
 
 

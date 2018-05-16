@@ -4,8 +4,6 @@ import UIKit
 
 //struct and class
 
-
-
 //比较 struct 和 class
 //Swift中的class和struct有许多共同之处。两者都可以：
 /*
@@ -36,6 +34,7 @@ import UIKit
 
  */
 
+
 //重要区别:
 //struct在代码中传递时总是被复制，并且不使用引用计数。
 //class 是引用类型, struct 是值类型
@@ -44,6 +43,11 @@ import UIKit
 struct PersonStruct{
     var name : String
     var age : Int
+    
+    init(_ p : (name: String, age: Int)) {
+        self.name = p.0;
+        self.age = p.1;
+    }
 }
 
 class PersonClass{
@@ -59,13 +63,18 @@ class PersonClass{
 
 //Memberwise Initializers for Structure Types
 //Struct 会根据 它所拥有的变量  自带一个默认的初始化方法 , 我们将这个称谓Memberwise Initializers
-let person_1 = PersonStruct(name: "Swift", age: 4)
+//let person_1 = PersonStruct(name: "Swift", age: 4)
 
-//class 实例不接收默认的成员初始化器, 因此我们需要在 class 中实现更加详细的 初始化, 就像 PersonClass 所展现的一样
+let person_1 = PersonStruct((name: "Swift", age: 4))
+
+
+//class 实例不接受默认的成员初始化器, 因此我们需要在 class 中实现更加详细的 初始化, 就像 PersonClass 所展现的一样
 //let person_2 = PersonClass(name: "Swift", age: 4)
 let person_3 = PersonClass()
 
 //基本类型在swift中,  整数、浮点数、布尔值、字符串、数组和字典中都是值类型，并且在后台实现为struct。
+
+
 
 
 //enum 类型
